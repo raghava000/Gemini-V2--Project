@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streammaster-web
+  namespace: production
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-ui
+  template:
+    metadata:
+      labels:
+        app: web-ui
+    spec:
+      initContainers:
+      - name: wait-for-db
+        image: busybox:1.28
+        command: ['sh', '-c', "until nslookup mongodb-service.production.svc.cluster.local; do echo waiting for db; sleep 2; done"]
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits: # <--- THIS IS NOW REQUIRED
+            cpu: "200m"
+            memory: "256Mi"
+      containers:
+      - name: web-app
+        image: nginx:alpine
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits: # <--- THIS IS NOW REQUIRED
+            cpu: "200m"
+            memory: "256Mi"
+        ports:
+        - containerPort: 80
