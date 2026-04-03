@@ -9,6 +9,7 @@
   * Utilizing Dynamic Provisioning via GKE's standard-rwo class
   * mango-pvc that triggers cloud to create a persistent disk
   * Deployed MangoDB to manage data, ensuring the database always finds its specific disk even if moved to a different node.
+  * Note that even if we do not create a storage class for pvc a default is taken while in     admission
 
 ## Phase 3
   * Front-end uses init-containers. Once DB is reachable it pings the db services and allows app to start.
