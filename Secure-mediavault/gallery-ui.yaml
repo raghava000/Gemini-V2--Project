@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gallery-ui
+  namespace: media-valut
+spec:
+  replicas: 3 # Let's do 3 for high availability!
+  selector:
+    matchLabels:
+      app: gallery
+  template:
+    metadata:
+      labels:
+        app: gallery
+    spec:
+      initContainers:
+      - name: check-redis
+        image: busybox:1.28
+        command: ['sh', '-c', "until nslookup redis-service.media-vault.svc.cluster.local; do echo waiting; sleep 2; done"]
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "64Mi"
+      containers:
+      - name: web
+        image: nginx:alpine
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
