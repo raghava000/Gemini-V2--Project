@@ -16,7 +16,7 @@ spec:
       initContainers:
       - name: check-redis
         image: busybox:1.28
-        command: ['sh', '-c', "until nslookup redis-service.media-vault.svc.cluster.local; do echo waiting; sleep 2; done"]
+        command: ['sh', '-c', "until nslookup redis-service.media-valut.svc.cluster.local; do echo waiting; sleep 2; done"]
         resources:
           limits:
             cpu: "100m"
