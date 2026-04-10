@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nfs
+  template:
+    metadata:
+      labels:
+        app: nfs
+    spec:
+      volumes:
+        - persistentVolumeClaim:
+            claimName: my-pvc
+          name: my-volume
+      containers:
+        - name: busybox
+          image: busybox:latest
+          command: ['sh', '-c', 'while true; do echo k8s >> /output/output.txt; sleep 5;done']
+          volumeMounts:
+            - name: my-volume
+              mountPath: /output
