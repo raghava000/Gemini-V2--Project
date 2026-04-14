@@ -47,8 +47,8 @@ jobs:
       uses: google-github-actions/get-gke-credentials@v2
       with:
         # REPLACE THIS WITH YOUR ACTUAL CLUSTER NAME
-        cluster_name: my-first-cluster-1 
-        location: asia-south1-a
+        cluster_name: standard-cluster
+        location: us-central1-a
 
     - name: Kubernetes Deploy
       run: |
